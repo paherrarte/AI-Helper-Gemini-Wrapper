@@ -1,10 +1,11 @@
 const btn = document.getElementById('submit');
 const geminiResponseContainer = document.getElementById('geminiResponse');
 
+//removes extra spaces
 btn.addEventListener('click', async () => {
   const inputText = document.getElementById("userInput");
   const userQuery = inputText.value.trim();
-
+  // send post request to gemini in json format
   try {
     const response = await fetch('/gemini', {
       method: 'POST',
@@ -20,8 +21,8 @@ btn.addEventListener('click', async () => {
 
     const rawData = await response.json();
 
-    // Parse and extract text safely
-    const parsed = JSON.parse(rawData); // since your backend does: JSON.stringify(...)
+    // It reads the response, parses the stringified JSON, and gets the actual answer
+    const parsed = JSON.parse(rawData); // since backend does: JSON.stringify(...)
     const answer = parsed?.candidates?.[0]?.content?.parts?.[0]?.text;
 
     if (answer) {
